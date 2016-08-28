@@ -14,9 +14,20 @@
 (assert (not (list-eq '(1 2 3 4) '(1 2 3))))
 (assert (not (list-eq '(2 1) '(1 2))))
 
+
+(defun singleton? (xs)
+  (if (null xs)
+    nil
+    (null (cdr xs))))
+
+(assert (singleton? '(4)))
+(assert (not (singleton? '(1 2))))
+(assert (not (singleton? ())))
+
+
 ; Problem 1
 (defun my-last (xs)
-  (if (null (cdr xs))
+  (if (singleton? xs)
     (car xs)
     (my-last (cdr xs))))
 
@@ -88,7 +99,7 @@
 
 ; Problem 8
 (defun compress (xs)
-  (if (null (cdr xs))
+  (if (singleton? xs)
     xs
     (let ((ys (compress (cdr xs))))
       (if (= (car xs) (car ys))
@@ -98,5 +109,21 @@
 (assert (list-eq '(1 2 3 1) (compress '(1 1 1 2 3 1 1))))
 
 
+; Problem 9
+(defun pack (xs)
+  (if (or (null xs) (singleton? xs))
+    (list xs)
+    (let ((ys (pack (cdr xs))))
+      (if (= (car xs) (car (car ys)))
+        (cons (cons (car xs) (car ys)) (cdr ys))
+        (cons (list (car xs)) ys)))))
 
-
+(let ((ws (pack '(1 1 1 1 2 3 3 1 1 4 5 5 5 5))))
+  (assert (= 6 (len ws)))
+  (assert (list-eq '(1 1 1 1) (element-at ws 1)))
+  (assert (list-eq '(2) (element-at ws 2)))
+  (assert (list-eq '(3 3) (element-at ws 3)))
+  (assert (list-eq '(1 1) (element-at ws 4)))
+  (assert (list-eq '(4) (element-at ws 5)))
+  (assert (list-eq '(5 5 5 5) (element-at ws 6)))
+  )
