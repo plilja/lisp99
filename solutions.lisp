@@ -54,3 +54,12 @@
     (+ 1 (len (cdr xs)))))
 
 (assert (= 3 (len '(1 2 3))))
+
+
+; Problem 5
+(defun my-reverse (xs)
+  (if (null xs)
+    ()
+    (cons (my-last xs) (my-reverse (init xs)))))
+
+(assert (list-eq '(4 3 2 1) (my-reverse '(1 2 3 4))))
