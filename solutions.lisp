@@ -72,3 +72,16 @@
 (assert (palindrome? '(1)))
 (assert (palindrome? '(1 2 3 2 1)))
 (assert (not (palindrome? '(1 2 3))))
+
+
+; Problem 7
+(defun my-flatten (xs)
+  (if (null xs)
+    ()
+    (if (listp (car xs))
+      (append (my-flatten (car xs)) (my-flatten (cdr xs)))
+      (cons (car xs) (my-flatten (cdr xs))))))
+
+(assert (list-eq '(1 2 3) (my-flatten '(1 2 3)))) 
+(assert (list-eq '(1 2 3 4 5) (my-flatten '(1 (2 (3 4) 5))))) 
+
