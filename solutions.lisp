@@ -85,3 +85,18 @@
 (assert (list-eq '(1 2 3) (my-flatten '(1 2 3)))) 
 (assert (list-eq '(1 2 3 4 5) (my-flatten '(1 (2 (3 4) 5))))) 
 
+
+; Problem 8
+(defun compress (xs)
+  (if (null (cdr xs))
+    xs
+    (let ((ys (compress (cdr xs))))
+      (if (= (car xs) (car ys))
+        ys
+        (cons (car xs) ys)))))
+
+(assert (list-eq '(1 2 3 1) (compress '(1 1 1 2 3 1 1))))
+
+
+
+
