@@ -63,3 +63,12 @@
     (cons (my-last xs) (my-reverse (init xs)))))
 
 (assert (list-eq '(4 3 2 1) (my-reverse '(1 2 3 4))))
+
+
+; Problem 6
+(defun palindrome? (xs)
+  (list-eq xs (my-reverse xs)))
+
+(assert (palindrome? '(1)))
+(assert (palindrome? '(1 2 3 2 1)))
+(assert (not (palindrome? '(1 2 3))))
