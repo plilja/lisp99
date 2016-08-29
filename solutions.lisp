@@ -152,3 +152,23 @@
   (mapcar #'f (pack xs)))
 
 (assert (list-eq '((3 1) 2 3 (2 1)) (encode-modified '(1 1 1 2 3 1 1))))
+
+
+; Problem 12
+(defun decode-modified (xs)
+  (defun expand (ys)
+    (if (= 0 (car ys))
+      ()
+      (cons (car (cdr ys)) (expand (cons (- (car ys) 1) (cdr ys))))))
+
+  (if (null xs)
+    ()
+    (let ((x (car xs)))
+          (if (listp x)
+            (append (expand x) (decode-modified (cdr xs)))
+            (cons x (decode-modified (cdr xs)))))))
+
+(assert (list-eq '(1 1 1 2 3 1 1) (decode-modified '((3 1) 2 3 (2 1)))))
+
+
+
