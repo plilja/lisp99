@@ -1,9 +1,18 @@
 (defun list-eq (xs ys)
+  (defun elem-eq? (x y)
+    (if (listp x)
+      (if (listp y)
+        (list-eq x y)
+      nil)
+    (if (listp y)
+      nil
+      (= x y))))
+
   (if (null xs)
     (null ys)
     (if (null ys)
       nil
-      (and (= (car xs) (car ys)) (list-eq (cdr xs) (cdr ys))))))
+      (and (elem-eq? (car xs) (car ys)) (list-eq (cdr xs) (cdr ys))))))
 
 (assert (list-eq () ()))
 (assert (list-eq '(1) '(1)))
@@ -13,6 +22,10 @@
 (assert (not (list-eq '(1 2 3) '(1 2 3 4))))
 (assert (not (list-eq '(1 2 3 4) '(1 2 3))))
 (assert (not (list-eq '(2 1) '(1 2))))
+
+; Nested lists
+(assert (list-eq '(1 (2 (3 4) 5)) '(1 (2 (3 4) 5))))
+(assert (not (list-eq '(1 (2 (3 4) 5)) '(1 (2 5)))))
 
 
 (defun singleton? (xs)
@@ -145,3 +158,13 @@
   (assert (list-eq '(4 5) (element-at ws 6)))
   )
 
+
+; Problem 11
+(defun encode-modified (xs)
+  (defun f (ys)
+    (if (singleton? ys)
+      (car ys)
+      (cons (len ys) (list (car ys)))))
+  (mapcar #'f (pack xs)))
+
+(assert (list-eq '((3 1) 2 3 (2 1)) (encode-modified '(1 1 1 2 3 1 1))))
