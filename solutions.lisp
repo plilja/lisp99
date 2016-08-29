@@ -131,15 +131,7 @@
         (cons (cons (car xs) (car ys)) (cdr ys))
         (cons (list (car xs)) ys)))))
 
-(let ((ws (pack '(1 1 1 1 2 3 3 1 1 4 5 5 5 5))))
-  (assert (= 6 (len ws)))
-  (assert (list-eq '(1 1 1 1) (element-at ws 1)))
-  (assert (list-eq '(2) (element-at ws 2)))
-  (assert (list-eq '(3 3) (element-at ws 3)))
-  (assert (list-eq '(1 1) (element-at ws 4)))
-  (assert (list-eq '(4) (element-at ws 5)))
-  (assert (list-eq '(5 5 5 5) (element-at ws 6)))
-  )
+(assert (list-eq '((1 1 1 1) (2) (3 3) (1 1) (4) (5 5 5 5)) (pack '(1 1 1 1 2 3 3 1 1 4 5 5 5 5))))
 
 
 ; Problem 10
@@ -148,15 +140,7 @@
     (cons (len ys) (list (car ys))))
   (mapcar #'f (pack xs)))
 
-(let ((ws (encode '(1 1 1 1 2 3 3 1 1 4 5 5 5 5))))
-  (assert (= 6 (len ws)))
-  (assert (list-eq '(4 1) (element-at ws 1)))
-  (assert (list-eq '(1 2) (element-at ws 2)))
-  (assert (list-eq '(2 3) (element-at ws 3)))
-  (assert (list-eq '(2 1) (element-at ws 4)))
-  (assert (list-eq '(1 4) (element-at ws 5)))
-  (assert (list-eq '(4 5) (element-at ws 6)))
-  )
+(assert (list-eq '((4 1) (1 2) (2 3) (2 1) (1 4) (4 5)) (encode '(1 1 1 1 2 3 3 1 1 4 5 5 5 5))))
 
 
 ; Problem 11
