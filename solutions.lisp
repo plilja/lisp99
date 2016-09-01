@@ -171,4 +171,22 @@
 (assert (list-eq '(1 1 1 2 3 1 1) (decode-modified '((3 1) 2 3 (2 1)))))
 
 
-
+; Problem 13
+(defun singleton (x) ; TODO look for built in solution
+  (cons x '()))
+(defun encode-direct (xs)
+  (defun encode-direct-helper (xs acc)
+    (if (null xs)
+      acc
+      (let ((x (car xs)) (y (car acc)))
+        (if (listp y)
+          (if (= x (car (cdr y)))
+            (encode-direct-helper (cdr xs) (cons (cons (+ (car y) 1) (singleton x)) (cdr acc)))
+            (encode-direct-helper (cdr xs) (cons x acc)))
+          (if (= x y)
+            (encode-direct-helper (cdr xs) (cons (cons 2 (singleton x)) (cdr acc)))
+            (encode-direct-helper (cdr xs) (cons x acc)))))))
+  (reverse (encode-direct-helper (cdr xs) (singleton (car xs)))))
+        
+(assert (list-eq '((3 1) 2 3 (2 1)) (encode-direct '(1 1 1 2 3 1 1))))
+        
