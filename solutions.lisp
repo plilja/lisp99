@@ -212,3 +212,16 @@
   (f xs n))
 
 (assert (list-eq '(1 1 1 2 2 2 3 3 3) (repli '(1 2 3) 3)))
+
+
+; Problem 16
+(defun drop (xs n)
+  (defun f (xs m)
+    (if (null xs)
+      ()
+      (if (= 1 m)
+         (f (cdr xs) n)
+         (cons (car xs) (f (cdr xs) (- m 1))))))
+  (f xs n))
+
+(assert (list-eq '(1 2 4 5) (drop '(1 2 3 4 5 6) 3)))
