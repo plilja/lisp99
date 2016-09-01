@@ -189,4 +189,13 @@
   (reverse (encode-direct-helper (cdr xs) (singleton (car xs)))))
         
 (assert (list-eq '((3 1) 2 3 (2 1)) (encode-direct '(1 1 1 2 3 1 1))))
-        
+
+
+; Problem 14
+(defun dupli (xs)
+  (if (null xs)
+    ()
+    (let ((head (car xs)))
+      (cons head (cons head (dupli (cdr xs)))))))
+
+(assert (list-eq '(1 1 2 2 3 3) (dupli '(1 2 3))))
