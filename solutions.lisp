@@ -199,3 +199,16 @@
       (cons head (cons head (dupli (cdr xs)))))))
 
 (assert (list-eq '(1 1 2 2 3 3) (dupli '(1 2 3))))
+
+
+; Problem 15
+(defun repli (xs n)
+  (defun f (xs m)
+    (if (null xs)
+      ()
+      (if (= 0 m)
+        (f (cdr xs) n)
+        (cons (car xs) (f xs (- m 1))))))
+  (f xs n))
+
+(assert (list-eq '(1 1 1 2 2 2 3 3 3) (repli '(1 2 3) 3)))
