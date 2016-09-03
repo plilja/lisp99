@@ -225,3 +225,15 @@
   (f xs n))
 
 (assert (list-eq '(1 2 4 5) (drop '(1 2 3 4 5 6) 3)))
+
+
+; Problem 17
+(defun split (xs n)
+  (if (null xs)
+    ()
+    (if (= 0 n)
+      (cons '() (singleton xs))
+      (let ((r (split (cdr xs) (- n 1))))
+        (cons (cons (car xs) (car r)) (cdr r))))))
+
+(assert (list-eq '((1 2 3) (4 5 6)) (split '(1 2 3 4 5 6) 3)))
