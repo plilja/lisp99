@@ -215,7 +215,7 @@
 
 
 ; Problem 16
-(defun drop (xs n)
+(defun drop-every (xs n)
   (defun f (xs m)
     (if (null xs)
       ()
@@ -224,7 +224,7 @@
          (cons (car xs) (f (cdr xs) (- m 1))))))
   (f xs n))
 
-(assert (list-eq '(1 2 4 5) (drop '(1 2 3 4 5 6) 3)))
+(assert (list-eq '(1 2 4 5) (drop-every '(1 2 3 4 5 6) 3)))
 
 
 ; Problem 17
@@ -237,3 +237,24 @@
         (cons (cons (car xs) (car r)) (cdr r))))))
 
 (assert (list-eq '((1 2 3) (4 5 6)) (split '(1 2 3 4 5 6) 3)))
+
+
+; Problem 18
+(defun drop (xs n)
+  (if (or (= 0 n) (null xs))
+    xs
+    (drop (cdr xs) (- n 1))))
+
+(assert (list-eq '(3 4 5) (drop '(1 2 3 4 5) 2)))
+
+(defun take (xs n)
+  (if (or (= 0 n) (null xs))
+    ()
+    (cons (car xs) (take (cdr xs) (- n 1)))))
+
+(assert (list-eq '(1 2 3) (take '(1 2 3 4 5) 3)))
+
+(defun splice (xs a b)
+  (drop (take xs b) (- a 1)))
+
+(assert (list-eq '(3 4 5 6 7) (splice '(1 2 3 4 5 6 7 8 9 10) 3 7)))
