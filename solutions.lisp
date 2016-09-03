@@ -28,6 +28,11 @@
 (assert (not (list-eq '(1 (2 (3 4) 5)) '(1 (2 5)))))
 
 
+(defun assert-eq (expected actual)
+  (if (not (list-eq expected actual))
+    (error (format nil "Lists are not equal~%expected: ~a~%actual: ~a" expected actual))))
+
+
 (defun singleton? (xs)
   (if (null xs)
     nil
@@ -52,7 +57,7 @@
     ()
     (cons (car xs) (init (cdr xs)))))
 
-(assert (list-eq '(1 2 3) (init '(1 2 3 4))))
+(assert-eq '(1 2 3) (init '(1 2 3 4)))
 
 
 ; Problem 2
@@ -86,7 +91,7 @@
     ()
     (cons (my-last xs) (my-reverse (init xs)))))
 
-(assert (list-eq '(4 3 2 1) (my-reverse '(1 2 3 4))))
+(assert-eq '(4 3 2 1) (my-reverse '(1 2 3 4)))
 
 
 ; Problem 6
@@ -106,8 +111,8 @@
       (append (my-flatten (car xs)) (my-flatten (cdr xs)))
       (cons (car xs) (my-flatten (cdr xs))))))
 
-(assert (list-eq '(1 2 3) (my-flatten '(1 2 3)))) 
-(assert (list-eq '(1 2 3 4 5) (my-flatten '(1 (2 (3 4) 5))))) 
+(assert-eq '(1 2 3) (my-flatten '(1 2 3)))
+(assert-eq '(1 2 3 4 5) (my-flatten '(1 (2 (3 4) 5))))
 
 
 ; Problem 8
@@ -119,7 +124,7 @@
         ys
         (cons (car xs) ys)))))
 
-(assert (list-eq '(1 2 3 1) (compress '(1 1 1 2 3 1 1))))
+(assert-eq '(1 2 3 1) (compress '(1 1 1 2 3 1 1)))
 
 
 ; Problem 9
@@ -131,7 +136,7 @@
         (cons (cons (car xs) (car ys)) (cdr ys))
         (cons (list (car xs)) ys)))))
 
-(assert (list-eq '((1 1 1 1) (2) (3 3) (1 1) (4) (5 5 5 5)) (pack '(1 1 1 1 2 3 3 1 1 4 5 5 5 5))))
+(assert-eq '((1 1 1 1) (2) (3 3) (1 1) (4) (5 5 5 5)) (pack '(1 1 1 1 2 3 3 1 1 4 5 5 5 5)))
 
 
 ; Problem 10
@@ -140,7 +145,7 @@
     (cons (len ys) (list (car ys))))
   (mapcar #'f (pack xs)))
 
-(assert (list-eq '((4 1) (1 2) (2 3) (2 1) (1 4) (4 5)) (encode '(1 1 1 1 2 3 3 1 1 4 5 5 5 5))))
+(assert-eq '((4 1) (1 2) (2 3) (2 1) (1 4) (4 5)) (encode '(1 1 1 1 2 3 3 1 1 4 5 5 5 5)))
 
 
 ; Problem 11
@@ -151,7 +156,7 @@
       (cons (len ys) (list (car ys)))))
   (mapcar #'f (pack xs)))
 
-(assert (list-eq '((3 1) 2 3 (2 1)) (encode-modified '(1 1 1 2 3 1 1))))
+(assert-eq '((3 1) 2 3 (2 1)) (encode-modified '(1 1 1 2 3 1 1)))
 
 
 ; Problem 12
@@ -168,7 +173,7 @@
             (append (expand x) (decode-modified (cdr xs)))
             (cons x (decode-modified (cdr xs)))))))
 
-(assert (list-eq '(1 1 1 2 3 1 1) (decode-modified '((3 1) 2 3 (2 1)))))
+(assert-eq '(1 1 1 2 3 1 1) (decode-modified '((3 1) 2 3 (2 1))))
 
 
 ; Problem 13
@@ -188,7 +193,7 @@
             (encode-direct-helper (cdr xs) (cons x acc)))))))
   (reverse (encode-direct-helper (cdr xs) (singleton (car xs)))))
         
-(assert (list-eq '((3 1) 2 3 (2 1)) (encode-direct '(1 1 1 2 3 1 1))))
+(assert-eq '((3 1) 2 3 (2 1)) (encode-direct '(1 1 1 2 3 1 1)))
 
 
 ; Problem 14
@@ -198,7 +203,7 @@
     (let ((head (car xs)))
       (cons head (cons head (dupli (cdr xs)))))))
 
-(assert (list-eq '(1 1 2 2 3 3) (dupli '(1 2 3))))
+(assert-eq '(1 1 2 2 3 3) (dupli '(1 2 3)))
 
 
 ; Problem 15
@@ -211,7 +216,7 @@
         (cons (car xs) (f xs (- m 1))))))
   (f xs n))
 
-(assert (list-eq '(1 1 1 2 2 2 3 3 3) (repli '(1 2 3) 3)))
+(assert-eq '(1 1 1 2 2 2 3 3 3) (repli '(1 2 3) 3))
 
 
 ; Problem 16
@@ -224,7 +229,7 @@
          (cons (car xs) (f (cdr xs) (- m 1))))))
   (f xs n))
 
-(assert (list-eq '(1 2 4 5) (drop-every '(1 2 3 4 5 6) 3)))
+(assert-eq '(1 2 4 5) (drop-every '(1 2 3 4 5 6) 3))
 
 
 ; Problem 17
@@ -236,7 +241,7 @@
       (let ((r (split (cdr xs) (- n 1))))
         (cons (cons (car xs) (car r)) (cdr r))))))
 
-(assert (list-eq '((1 2 3) (4 5 6)) (split '(1 2 3 4 5 6) 3)))
+(assert-eq '((1 2 3) (4 5 6)) (split '(1 2 3 4 5 6) 3))
 
 
 ; Problem 18
@@ -245,16 +250,16 @@
     xs
     (drop (cdr xs) (- n 1))))
 
-(assert (list-eq '(3 4 5) (drop '(1 2 3 4 5) 2)))
+(assert-eq '(3 4 5) (drop '(1 2 3 4 5) 2))
 
 (defun take (xs n)
   (if (or (= 0 n) (null xs))
     ()
     (cons (car xs) (take (cdr xs) (- n 1)))))
 
-(assert (list-eq '(1 2 3) (take '(1 2 3 4 5) 3)))
+(assert-eq '(1 2 3) (take '(1 2 3 4 5) 3))
 
 (defun splice (xs a b)
   (drop (take xs b) (- a 1)))
 
-(assert (list-eq '(3 4 5 6 7) (splice '(1 2 3 4 5 6 7 8 9 10) 3 7)))
+(assert-eq '(3 4 5 6 7) (splice '(1 2 3 4 5 6 7 8 9 10) 3 7))
