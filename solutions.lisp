@@ -296,3 +296,12 @@
 (assert-eq '(1 2 3 4) (insert-at 2 '(1 3 4) 2))
 (assert-eq '(1 2 3) (insert-at 3 '(1 2) 3))
 
+
+; Problem 22
+(defun range (a b)
+  (if (< b a)
+    ()
+    (cons a (range (+ a 1) b))))
+
+(assert-eq '(4 5 6 7 8 9) (range 4 9))
+
