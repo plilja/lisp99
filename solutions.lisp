@@ -234,15 +234,14 @@
 
 ; Problem 17
 (defun split (xs n)
+  (if (< n 0)
+    (error "Negative index"))
   (if (null xs)
     ()
     (if (= 0 n)
       (cons '() (singleton xs))
       (let ((r (split (cdr xs) (- n 1))))
         (cons (cons (car xs) (car r)) (cdr r))))))
-
-(assert-eq '((1 2 3) (4 5 6)) (split '(1 2 3 4 5 6) 3))
-
 
 ; Problem 18
 (defun drop (xs n)
@@ -263,3 +262,13 @@
   (drop (take xs b) (- a 1)))
 
 (assert-eq '(3 4 5 6 7) (splice '(1 2 3 4 5 6 7 8 9 10) 3 7))
+
+
+; Problem 19
+(defun rotate (xs n)
+  (let ((m (len xs)))
+      (let ((ys (split xs (mod n m))))
+        (append (car (cdr ys)) (car ys)))))
+
+(assert-eq '(4 5 6 7 8 1 2 3) (rotate '(1 2 3 4 5 6 7 8) 3))
+(assert-eq '(7 8 1 2 3 4 5 6) (rotate '(1 2 3 4 5 6 7 8) -2))
