@@ -283,3 +283,16 @@
     (t (cons (car xs) (remove-at (cdr xs) (- i 1))))))
 
 (assert-eq '(1 3 4) (remove-at '(1 2 3 4) 2))
+
+
+; Problem 21
+(defun insert-at (elem xs i)
+  (cond 
+    ((<= i 0) (error "Index must be positive"))
+    ((null xs) (singleton elem))
+    ((= 1 i) (cons elem xs))
+    (t (cons (car xs) (insert-at elem (cdr xs) (- i 1))))))
+
+(assert-eq '(1 2 3 4) (insert-at 2 '(1 3 4) 2))
+(assert-eq '(1 2 3) (insert-at 3 '(1 2) 3))
+
