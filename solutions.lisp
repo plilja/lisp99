@@ -272,3 +272,14 @@
 
 (assert-eq '(4 5 6 7 8 1 2 3) (rotate '(1 2 3 4 5 6 7 8) 3))
 (assert-eq '(7 8 1 2 3 4 5 6) (rotate '(1 2 3 4 5 6 7 8) -2))
+
+
+; Problem 20
+(defun remove-at (xs i)
+  (cond 
+    ((<= i 0) (error "Index must be positive"))
+    ((null xs) xs)
+    ((= 1 i) (cdr xs))
+    (t (cons (car xs) (remove-at (cdr xs) (- i 1))))))
+
+(assert-eq '(1 3 4) (remove-at '(1 2 3 4) 2))
