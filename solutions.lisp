@@ -324,3 +324,7 @@
 (defun lotto-select (n m)
   (rnd-select (range 1 m) n))
 
+
+; Problem 25
+(defun rnd-permu (xs)
+  (rnd-select xs (len xs)))
