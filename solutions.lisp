@@ -313,12 +313,12 @@
 (defun rnd-select (xs n)
   (if (= 0 n)
     ()
-    (progn
-      (setq m (len xs))
-      (setq i (+ 1 (random m)))
-      (setq k (element-at xs i))
-      (setq left (remove-at xs i))
-      (cons k (rnd-select left (- n 1))))))
+    (let ((m (len xs)))
+      (let ((i (+ 1 (random m))))
+        (let ((k (element-at xs i)))
+          (let ((left (remove-at xs i)))
+            (cons k (rnd-select left (- n 1)))))))))
+
 
 ; Problem 24
 (defun lotto-select (n m)
@@ -328,3 +328,21 @@
 ; Problem 25
 (defun rnd-permu (xs)
   (rnd-select xs (len xs)))
+
+
+; Problem 25
+(defun combination (n xs)
+  (cond
+    ((= 0 n) '(()))
+    ((null xs) '())
+    (t (let ((x (car xs)))
+         (let ((sub (combination (- n 1) (cdr xs))))
+            (let ((including-x (mapcar (lambda (ys) (cons x ys)) sub)))
+                (let ((excluding-x (combination n (cdr xs))))
+                    (append including-x excluding-x))))))))
+
+
+(assert-eq '((1) (2)) (combination 1 '(1 2)))
+(assert-eq '((1 2)) (combination 2 '(1 2)))
+(assert-eq '((1 2) (1 3) (2 3)) (combination 2 '(1 2 3)))
+(assert-eq '((1 2 3) (1 2 4) (1 3 4) (2 3 4)) (combination 3 '(1 2 3 4)))
