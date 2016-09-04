@@ -1,3 +1,6 @@
+(setf *random-state* (make-random-state t))
+
+
 (defun list-eq (xs ys)
   (defun elem-eq? (x y)
     (if (listp x)
@@ -304,4 +307,16 @@
     (cons a (range (+ a 1) b))))
 
 (assert-eq '(4 5 6 7 8 9) (range 4 9))
+
+
+; Problem 23
+(defun rnd-select (xs n)
+  (if (= 0 n)
+    ()
+    (progn
+      (setq m (len xs))
+      (setq i (+ 1 (random m)))
+      (setq k (element-at xs i))
+      (setq left (remove-at xs i))
+      (cons k (rnd-select left (- n 1))))))
 
