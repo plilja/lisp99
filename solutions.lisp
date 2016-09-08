@@ -330,7 +330,7 @@
   (rnd-select xs (len xs)))
 
 
-; Problem 25
+; Problem 26
 (defun combination (n xs)
   (cond
     ((= 0 n) '(()))
@@ -346,3 +346,29 @@
 (assert-eq '((1 2)) (combination 2 '(1 2)))
 (assert-eq '((1 2) (1 3) (2 3)) (combination 2 '(1 2 3)))
 (assert-eq '((1 2 3) (1 2 4) (1 3 4) (2 3 4)) (combination 3 '(1 2 3 4)))
+
+
+; Problem 27
+(defun group (xs sizes)
+  (defun g (x groups)
+    (cond 
+      ((null groups) ())
+      ((> (car (car groups)) 0) 
+        (cons
+          (append (list (append (list (- (car (car groups)) 1) x) (cdr (car groups)))) (cdr groups))
+          (mapcar (lambda (y) (cons (car groups) y)) (g x (cdr groups)))))
+      (t (mapcar (lambda (y) (cons (car groups) y)) (g x (cdr groups))))
+     )) 
+
+  (defun f (xs sizes)
+    (cond
+      ((null xs) (list sizes))
+      (t (mapcan (lambda (y) (g (car xs) y)) (f (cdr xs) sizes)))))
+
+  (let ((ys (f xs (mapcar (lambda (x) (list x)) sizes))))
+    (mapcar (lambda (a) (mapcar (lambda (b) (cdr b)) a)) ys)))
+
+(assert-eq '(((1))) (group '(1) '(1)))
+(assert-eq '(((2) (1)) ((1) (2))) (group '(1 2) '(1 1)))
+(assert-eq '(((3) (1 2)) ((2) (1 3)) ((1) (2 3))) (group '(1 2 3) '(1 2)))
+(assert (= 756 (len (group '(1 2 3 4 5 6 7 8 9) '(2 2 5)))))
