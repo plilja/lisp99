@@ -392,4 +392,17 @@
 (assert-eq '((9 10 11 12) (15) (1 2 3) (6 7 8) (4 5) (4 5) (13 14)) (lfsort '((1 2 3) (4 5) (6 7 8) (4 5) (9 10 11 12) (13 14) (15))))
 
 
+; Problem 31
+(defun is-prime (x)
+  (defun iter (i j)
+    (cond
+      ((> i j) t)
+      ((= 0 (rem x i)) nil)
+      (t (iter (+ i 1) j))))
+  (iter 2 (isqrt x)))
 
+(assert (not (is-prime 4)))
+(assert (not (is-prime 6)))
+(assert (is-prime 2))
+(assert (is-prime 7))
+(assert (is-prime 13))
