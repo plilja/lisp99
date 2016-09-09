@@ -372,3 +372,24 @@
 (assert-eq '(((2) (1)) ((1) (2))) (group '(1 2) '(1 1)))
 (assert-eq '(((3) (1 2)) ((2) (1 3)) ((1) (2 3))) (group '(1 2 3) '(1 2)))
 (assert (= 756 (len (group '(1 2 3 4 5 6 7 8 9) '(2 2 5)))))
+
+
+; Problem 28
+(defun lsort (xs)
+  (stable-sort xs (lambda (x y) (< (len x) (len y)))))
+
+(assert-eq '((15) (4 5) (4 5) (13 14) (1 2 3) (6 7 8) (9 10 11 12)) (lsort '((1 2 3) (4 5) (6 7 8) (4 5) (9 10 11 12) (13 14) (15))))
+
+(defun lfsort (xs)
+  (defun count-freq (y xs)
+    (cond
+      ((null xs) 0)
+      ((= (len (car xs)) (len y)) (+ 1 (count-freq y (cdr xs))))
+      (t (count-freq y (cdr xs)))))
+  (let ((c (copy-list xs)))
+    (stable-sort c (lambda (x y) (< (count-freq x xs) (count-freq y xs))))))
+
+(assert-eq '((9 10 11 12) (15) (1 2 3) (6 7 8) (4 5) (4 5) (13 14)) (lfsort '((1 2 3) (4 5) (6 7 8) (4 5) (9 10 11 12) (13 14) (15))))
+
+
+
