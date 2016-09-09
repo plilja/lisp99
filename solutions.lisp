@@ -406,3 +406,13 @@
 (assert (is-prime 2))
 (assert (is-prime 7))
 (assert (is-prime 13))
+
+
+; Problem 32
+(defun my-gcd (a b)
+  (if (= 0 b)
+    a
+    (my-gcd b (mod a b))))
+
+(assert (= 9 (my-gcd 36 63)))
+(assert (= 1 (my-gcd 13 4)))
