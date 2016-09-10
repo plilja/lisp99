@@ -416,3 +416,11 @@
 
 (assert (= 9 (my-gcd 36 63)))
 (assert (= 1 (my-gcd 13 4)))
+
+
+; Problem 33
+(defun coprime (a b)
+  (= 1 (my-gcd a b)))
+
+(assert (coprime 35 64))
+(assert (not (coprime 2 4)))
