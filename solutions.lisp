@@ -431,3 +431,17 @@
   (len (remove-if-not (lambda (i) (coprime i m)) (range 1 m))))
 
 (assert (= 4 (totient-phi 10)))
+
+
+; Problem 35
+(defun prime-factors (m)
+  (defun f (i j k)
+    (cond
+      ((> i j) (list k))
+      ((= 0 (rem k i)) (cons i (f i (isqrt (/ k i)) (/ k i))))
+      (t (f (+ i 1) j k))))
+  (f 2 (isqrt m) m))
+
+(assert-eq '(3 3 5 7) (prime-factors 315))
+(assert-eq '(13) (prime-factors 13))
+
