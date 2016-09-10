@@ -424,3 +424,10 @@
 
 (assert (coprime 35 64))
 (assert (not (coprime 2 4)))
+
+
+; Problem 34
+(defun totient-phi (m)
+  (len (remove-if-not (lambda (i) (coprime i m)) (range 1 m))))
+
+(assert (= 4 (totient-phi 10)))
