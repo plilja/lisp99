@@ -445,3 +445,9 @@
 (assert-eq '(3 3 5 7) (prime-factors 315))
 (assert-eq '(13) (prime-factors 13))
 
+
+; Problem 36
+(defun prime-factors-mult (m)
+  (mapcar (lambda (xs) (list (car (cdr xs)) (car xs))) (encode (prime-factors m))))
+
+(assert-eq '((3 2) (5 1) (7 1)) (prime-factors-mult 315))
