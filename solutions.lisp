@@ -416,8 +416,11 @@
       ((> i j) t)
       ((= 0 (rem x i)) nil)
       (t (iter (+ i 1) j))))
-  (iter 2 (isqrt x)))
+  (if (= 1 x)
+    nil
+    (iter 2 (isqrt x))))
 
+(assert (not (is-prime 1)))
 (assert (not (is-prime 4)))
 (assert (not (is-prime 6)))
 (assert (is-prime 2))
@@ -478,3 +481,11 @@
 (assert (= (totient-phi 10) (totient-phi-imp 10)))
 (assert (= (totient-phi 18) (totient-phi-imp 18)))
 (assert (= (totient-phi 47) (totient-phi-imp 47)))
+
+
+; Problem 38
+(defun primes (a b)
+  (remove-if-not (lambda (m) (is-prime m)) (range a b)))
+
+(assert-eq '(2 3 5) (primes 1 5))
+(assert-eq '(3 5 7 11 13) (primes 3 16))
