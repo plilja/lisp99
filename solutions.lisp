@@ -46,6 +46,23 @@
 (assert (not (singleton? ())))
 
 
+(defun sum (xs)
+  (if (null xs)
+    0
+    (+ (car xs) (sum (cdr xs)))))
+
+(assert (= 6 (sum '(1 3 2))))
+(assert (= 0 (sum '())))
+
+(defun product (xs)
+  (if (null xs)
+    1
+    (* (car xs) (product (cdr xs)))))
+
+(assert (= 6 (product '(1 3 2))))
+(assert (= 1 (product '())))
+
+
 ; Problem 1
 (defun my-last (xs)
   (if (singleton? xs)
@@ -451,3 +468,13 @@
   (mapcar (lambda (xs) (list (car (cdr xs)) (car xs))) (encode (prime-factors m))))
 
 (assert-eq '((3 2) (5 1) (7 1)) (prime-factors-mult 315))
+
+
+; Problem 37
+(defun totient-phi-imp (m)
+  (let ((factors (prime-factors-mult m)))
+    (product (mapcar (lambda (x) (* (- (car x) 1) (expt (car x) (- (car (cdr x)) 1)))) factors))))
+
+(assert (= (totient-phi 10) (totient-phi-imp 10)))
+(assert (= (totient-phi 18) (totient-phi-imp 18)))
+(assert (= (totient-phi 47) (totient-phi-imp 47)))
