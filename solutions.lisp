@@ -498,8 +498,16 @@
       (cond
         ((and (is-prime i) (is-prime r)) (list i r))
         (t (f (+ i 1))))))
-  (f 2))
+  (if (= (rem m 2) 0)
+    (f 2)
+    (error "must provide even number to goldbach")))
 
 (assert-eq '(5 23) (goldbach 28))
 (assert-eq '(3 97) (goldbach 100))
 
+
+; Problem 40
+(defun goldbach-list (a b)
+  (mapcar (lambda (x) (goldbach x)) (remove-if-not (lambda (x) (= (rem x 2) 0)) (range a b))))
+
+(assert-eq '((3 7) (5 7) (3 11) (3 13) (5 13) (3 17)) (goldbach-list 9 20))
