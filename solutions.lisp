@@ -489,3 +489,17 @@
 
 (assert-eq '(2 3 5) (primes 1 5))
 (assert-eq '(3 5 7 11 13) (primes 3 16))
+
+
+; Problem 39
+(defun goldbach (m)
+  (defun f (i)
+    (let ((r (- m i)))
+      (cond
+        ((and (is-prime i) (is-prime r)) (list i r))
+        (t (f (+ i 1))))))
+  (f 2))
+
+(assert-eq '(5 23) (goldbach 28))
+(assert-eq '(3 97) (goldbach 100))
+
