@@ -9,7 +9,7 @@
       nil)
     (if (listp y)
       nil
-      (= x y))))
+      (eq x y))))
 
   (if (null xs)
     (null ys)
@@ -511,3 +511,82 @@
   (mapcar (lambda (x) (goldbach x)) (remove-if-not (lambda (x) (= (rem x 2) 0)) (range a b))))
 
 (assert-eq '((3 7) (5 7) (3 11) (3 13) (5 13) (3 17)) (goldbach-list 9 20))
+
+
+; Problem 41
+(defun _and (a b)
+  (if a
+    b
+    nil))
+
+(assert (not (_and nil nil)))
+(assert (not (_and t nil)))
+(assert (not (_and nil t)))
+(assert (_and t t))
+
+(defun _or (a b)
+  (if a
+    t
+    b))
+
+(assert (not (_or nil nil)))
+(assert (_or t nil))
+(assert (_or nil t))
+(assert (_or t t))
+
+(defun _nand (a b)
+  (not (_and a b)))
+
+(assert (_nand nil nil))
+(assert (_nand t nil))
+(assert (_nand nil t))
+(assert (not (_nand t t)))
+
+(defun _nor (a b)
+  (not (_or a b)))
+
+(assert (_nor nil nil))
+(assert (not (_nor t nil)))
+(assert (not (_nor nil t)))
+(assert (not (_nor t t)))
+
+(defun _xor (a b)
+  (if a
+    (not b)
+    b))
+
+(assert (not (_xor nil nil)))
+(assert (_xor t nil))
+(assert (_xor nil t))
+(assert (not (_xor t t)))
+
+(defun _impl (a b)
+  (if a
+    b
+    t))
+
+(assert (_impl nil nil))
+(assert (not (_impl t nil)))
+(assert (_impl nil t))
+(assert (_impl t t))
+
+(defun _equ (a b)
+  (if a
+    b
+    (not b)))
+
+(assert (_equ nil nil))
+(assert (not (_equ t nil)))
+(assert (not (_equ nil t)))
+(assert (_equ t t))
+
+(defun table (pred)
+  (list
+    (list t t (funcall pred t t))
+    (list t nil (funcall pred t nil))
+    (list nil t (funcall pred nil t))
+    (list nil nil (funcall pred nil nil))
+    ))
+
+(assert-eq '((t t t) (t nil nil) (nil t nil) (nil nil nil)) (table #'_and))
+(assert-eq '((t t t) (t nil t) (nil t t) (nil nil nil)) (table #'_or))
